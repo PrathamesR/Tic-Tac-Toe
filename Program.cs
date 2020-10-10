@@ -13,6 +13,38 @@ namespace TicTacToe
         static char playerChoice;
         static char compChoice;
 
+        enum Turn
+        {
+            Player=1,
+            Computer=2
+        }
+
+
+        static void Main(string[] args)
+        {
+            UC1_StartGame();
+
+            //Temp ReadLine to view Console
+            Console.ReadLine();
+        }
+
+        /// <summary>
+        /// Starts the game.
+        /// </summary>
+        static void UC1_StartGame()
+        {
+            for (int i = 1; i < 10; i++)
+                board[i] = ' ';
+
+            Console.WriteLine("New Game Started");
+            UC2SelectCharacter();
+
+            UC3_ShowBoard();
+
+            UC4_MakeMove(UC6_CoinToss());
+
+            UC3_ShowBoard();
+        }
 
         /// <summary>
         /// Player chooses a character.
@@ -52,60 +84,84 @@ namespace TicTacToe
             Console.WriteLine("    " + board[7] + "|" + board[8] + "|" + board[9]);
         }
 
-        static void UC4_MakeMove()
+        /// <summary>
+        /// Complete a Turn.
+        /// </summary>
+        /// <param name="turn">Turn is of the player or Computer</param>
+        static void UC4_MakeMove(Turn turn)
         {
-            Console.Write("Enter the position you want to Mark: ");
-            bool flag = true;
-            while (flag)
+            if (turn == Turn.Player)
             {
-                try
+                Console.Write("Enter the position you want to Mark: ");
+                bool flag = true;
+                while (flag)
                 {
-                    int pos = int.Parse(Console.ReadLine());
-                    if (pos > 0 && pos < 10)
+                    try
                     {
-                        if (board[pos] != ' ')
-                            Console.WriteLine("Position is not free");
-                        else
+                        int pos = int.Parse(Console.ReadLine());
+                        if (pos > 0 && pos < 10)
                         {
-                            board[pos] = playerChoice;
-                            flag = false;
+                            if (board[pos] != ' ')
+                                Console.WriteLine("Position is not free");
+                            else
+                            {
+                                if (turn == Turn.Player)
+                                    board[pos] = playerChoice;
+                                else
+                                    board[pos] = compChoice;
+                                flag = false;
+                            }
                         }
+                        else
+                            Console.WriteLine("Invalid Input");
                     }
-                    else
-                        Console.WriteLine("Invalid Input");
-                }
-                catch(Exception e)
-                {
-                    Console.WriteLine(e.Message);
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
                 }
             }
-}
-
-
+            else
+                board[new Random().Next(1, 10)] = compChoice;
+        }
+        
         /// <summary>
-        /// Starts the game.
+        /// Toss the coin to select first Player
         /// </summary>
-        static void UC1_StartGame()
+        /// <returns></returns>
+        static Turn UC6_CoinToss()
         {
-            for (int i = 1; i < 10; i++)
-                board[i] = ' ';
+            string choice;
+            while (true)
+            {
+                Console.Write("Select 1.Heads 2.Tails : ");
+                choice = Console.ReadLine();
+                if (choice != "1" && choice != "2")
+                {
+                    Console.WriteLine("Invalid Input");
+                }
+                else
+                    break;
+            }
 
-            Console.WriteLine("New Game Started");
-            UC2SelectCharacter();
+            int toss = new Random().Next(1, 3);
+            if (toss == 1)
+                Console.Write("Coin landed as Heads. ");
+            else
+                Console.Write("Coin landed as Tails. ");
 
-            UC3_ShowBoard();
-
-            UC4_MakeMove();
-
-            UC3_ShowBoard();
+            if (toss == int.Parse(choice))
+            {
+                Console.WriteLine("You win the Toss, You start first");
+                return Turn.Player;
+            }
+            else
+            {
+                Console.WriteLine("Computer wins the Toss, Computer starts first");
+                return Turn.Computer;
+            }
         }
 
-        static void Main(string[] args)
-        {
-            UC1_StartGame();
 
-            //Temp ReadLine to view Console
-            Console.ReadLine();
-        }
     }
 }
