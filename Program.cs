@@ -58,19 +58,26 @@ namespace TicTacToe
             bool flag = true;
             while (flag)
             {
-                int pos = int.Parse(Console.ReadLine());
-                if (pos > 0 && pos < 10)
+                try
                 {
-                    if (board[pos] != ' ')
-                        Console.WriteLine("Position is not free");
-                    else
+                    int pos = int.Parse(Console.ReadLine());
+                    if (pos > 0 && pos < 10)
                     {
-                        board[pos] = playerChoice;
-                        flag = false;
+                        if (board[pos] != ' ')
+                            Console.WriteLine("Position is not free");
+                        else
+                        {
+                            board[pos] = playerChoice;
+                            flag = false;
+                        }
                     }
+                    else
+                        Console.WriteLine("Invalid Input");
                 }
-                else
-                    Console.WriteLine("Invalid Input");
+                catch(Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
             }
 }
 
