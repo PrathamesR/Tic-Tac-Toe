@@ -10,6 +10,31 @@ namespace TicTacToe
     {
 
         static char[] board = new char[10];
+        static char playerChoice;
+        static char compChoice;
+
+
+        /// <summary>
+        /// Player chooses a character.
+        /// </summary>
+        static void SelectCharacter()
+        {
+            Console.Write("Enter your Character: ");
+            string selection = Console.ReadLine();
+
+            if (selection == "X" || selection == "x" )
+            {
+                playerChoice = char.Parse(selection.ToUpper());
+                compChoice = 'O';
+            }
+            else if(selection == "O" || selection == "o")
+            {
+                playerChoice = char.Parse(selection.ToUpper());
+                compChoice = 'X';
+            }
+            else
+                Console.WriteLine("Invalid Input");
+        }
 
         /// <summary>
         /// Displays the board.
@@ -33,6 +58,8 @@ namespace TicTacToe
                 board[i] = ' ';
 
             Console.WriteLine("New Game Started");
+            SelectCharacter();
+
             DisplayBoard();
         }
 
