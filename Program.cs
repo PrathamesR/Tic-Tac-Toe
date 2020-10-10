@@ -39,16 +39,16 @@ namespace TicTacToe
             Console.WriteLine("New Game Started");
             UC2SelectCharacter();
 
-            UC3_ShowBoard();
+            UC3_ShowBoard(board);
 
             Turn turn = UC6_CoinToss();
             UC4_MakeMove(turn);
 
-            UC3_ShowBoard();
+            UC3_ShowBoard(board);
             turn = UC7_GetNextTurn(turn);
             UC4_MakeMove(turn);
 
-            UC3_ShowBoard();
+            UC3_ShowBoard(board);
         }
 
         /// <summary>
@@ -80,13 +80,13 @@ namespace TicTacToe
         /// <summary>
         /// Displays the board.
         /// </summary>
-        static void UC3_ShowBoard()
+        static void UC3_ShowBoard(char []boardName)
         {
-            Console.WriteLine("    " + board[1] + "|" + board[2] + "|" + board[3]);
+            Console.WriteLine("    " + boardName[1] + "|" + boardName[2] + "|" + boardName[3]);
             Console.WriteLine("   -------");
-            Console.WriteLine("    " + board[4] + "|" + board[5] + "|" + board[6]);
+            Console.WriteLine("    " + boardName[4] + "|" + boardName[5] + "|" + boardName[6]);
             Console.WriteLine("   -------");
-            Console.WriteLine("    " + board[7] + "|" + board[8] + "|" + board[9]);
+            Console.WriteLine("    " + boardName[7] + "|" + boardName[8] + "|" + boardName[9]);
         }
 
         /// <summary>
@@ -130,7 +130,7 @@ namespace TicTacToe
             else
             {
                 Console.WriteLine("Computer's Turn");
-                board[new Random().Next(1, 10)] = compChoice;
+                UC8_ComputersMove();
             }
         }
 
@@ -179,14 +179,8 @@ namespace TicTacToe
         /// <returns></returns>
         static Turn UC7_GetNextTurn(Turn turn)
         {
-            if ((board[1] == board[2] && board[2] == board[3] && board[1] != ' ')
-                || (board[4] == board[5] && board[5] == board[6] && board[4] != ' ')
-                || (board[7] == board[8] && board[8] == board[9] && board[7] != ' ')
-                || (board[1] == board[4] && board[4] == board[7] && board[1] != ' ')
-                || (board[2] == board[5] && board[5] == board[8] && board[2] != ' ')
-                || (board[3] == board[6] && board[6] == board[9] && board[3] != ' ')
-                || (board[1] == board[5] && board[5] == board[9] && board[1] != ' ')
-                || (board[3] == board[5] && board[5] == board[7] && board[3] != ' '))
+
+            if (UC8_CheckWinningCondition(board,turn))
             {
                 if (turn == Turn.Computer)
                     Console.WriteLine("Computer Wins");
@@ -215,6 +209,60 @@ namespace TicTacToe
 
             //Code Never reaches here
             return Turn.GameOver;
+        }
+
+
+        /// <summary>
+        /// Checks if someone is winning.
+        /// </summary>
+        /// <param name="boardName">Name of the board.</param>
+        /// <param name="turn">The turn.</param>
+        /// <returns></returns>
+        static bool UC8_CheckWinningCondition(char []boardName, Turn turn)
+        {
+            if ((boardName[1] == boardName[2] && boardName[2] == boardName[3] && boardName[1] != ' ')
+                   || (boardName[4] == boardName[5] && boardName[5] == boardName[6] && boardName[4] != ' ')
+                   || (boardName[7] == boardName[8] && boardName[8] == boardName[9] && boardName[7] != ' ')
+                   || (boardName[1] == boardName[4] && boardName[4] == boardName[7] && boardName[1] != ' ')
+                   || (boardName[2] == boardName[5] && boardName[5] == boardName[8] && boardName[2] != ' ')
+                   || (boardName[3] == boardName[6] && boardName[6] == boardName[9] && boardName[3] != ' ')
+                   || (boardName[1] == boardName[5] && boardName[5] == boardName[9] && boardName[1] != ' ')
+                   || (boardName[3] == boardName[5] && boardName[5] == boardName[7] && boardName[3] != ' '))            
+                return true;
+            else
+                return false;
+        }
+
+        /// <summary>
+        /// Computers Turn.
+        /// </summary>
+        static void UC8_ComputersMove()
+        {
+            bool ifGoodMove = false;
+            char[] tempBoard=new char[10];
+            for (int i=1;i< board.Length;i++)
+            {
+                board.CopyTo(tempBoard,0);
+                tempBoard[i] = compChoice;
+                if (UC8_CheckWinningCondition(tempBoard, Turn.Computer))
+                {
+                    Console.WriteLine("isWInning");
+                    board[i] = compChoice;
+                    ifGoodMove= true;
+                    return;
+                }
+            }
+            if (!ifGoodMove)
+            {
+                int randPos = new Random().Next(1, 10);
+                while (board[randPos] != ' ')
+                {
+                    randPos = new Random().Next(1, 10);
+                }
+                board[randPos] = compChoice;
+            }
+
+            return;
         }
     }
 }
