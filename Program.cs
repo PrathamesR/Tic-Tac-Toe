@@ -327,6 +327,10 @@ namespace TicTacToe
             return false;
         }
 
+        /// <summary>
+        /// Places in rest of the remaining spaces.
+        /// </summary>
+        /// <returns></returns>
         static bool UC11_TakeRest()
         {
             if(board[5]==' ')
