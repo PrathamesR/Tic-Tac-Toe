@@ -130,7 +130,7 @@ namespace TicTacToe
             else
             {
                 Console.WriteLine("Computer's Turn");
-                UC9_ComputersMove();
+                UC8_ComputersMove();
             }
         }
 
@@ -236,33 +236,15 @@ namespace TicTacToe
         /// <summary>
         /// Computers Turn.
         /// </summary>
-        static void UC9_ComputersMove()
+        static void UC8_ComputersMove()
         {
             bool ifGoodMove = false;
-            char[] tempBoard=new char[10];
-            for (int i=1;i< board.Length;i++)
-            {
-                board.CopyTo(tempBoard,0);
-                tempBoard[i] = compChoice;
-                if (UC8_CheckWinningCondition(tempBoard))
-                {
-                    board[i] = compChoice;
-                    ifGoodMove= true;
-                    return;
-                }
-            }
 
-            for (int i = 1; i < board.Length; i++)
-            {
-                board.CopyTo(tempBoard, 0);
-                tempBoard[i] = playerChoice;
-                if (UC8_CheckWinningCondition(tempBoard))
-                {
-                    board[i] = compChoice;
-                    ifGoodMove = true;
-                    return;
-                }
-            }
+            if (UC8_CheckIfWinning())
+                ifGoodMove = true;
+
+            if (UC9_BlockOpponent())
+                ifGoodMove = true;
 
 
             if (!ifGoodMove)
@@ -274,8 +256,47 @@ namespace TicTacToe
                 }
                 board[randPos] = compChoice;
             }
-
-            return;
         }
+
+        /// <summary>
+        /// Checks if Computer has a winning play.
+        /// </summary>
+        /// <returns></returns>
+        static bool UC8_CheckIfWinning()
+        {
+            char[] tempBoard = new char[10];
+            for (int i = 1; i < board.Length; i++)
+            {
+                board.CopyTo(tempBoard, 0);
+                tempBoard[i] = compChoice;
+                if (UC8_CheckWinningCondition(tempBoard))
+                {
+                    board[i] = compChoice;
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Checks and blocks player if he can win.
+        /// </summary>
+        /// <returns></returns>
+        static bool UC9_BlockOpponent()
+        {
+            char[] tempBoard = new char[10];
+            for (int i = 1; i < board.Length; i++)
+            {
+                board.CopyTo(tempBoard, 0);
+                tempBoard[i] = playerChoice;
+                if (UC8_CheckWinningCondition(tempBoard))
+                {
+                    board[i] = compChoice;
+                    return true;
+                }
+            }
+            return false;
+        }
+
     }
 }
