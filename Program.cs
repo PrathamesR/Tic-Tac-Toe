@@ -241,11 +241,20 @@ namespace TicTacToe
             bool ifGoodMove = false;
 
             if (UC8_CheckIfWinning())
+            {
                 ifGoodMove = true;
-
+                return;
+            }
             if (UC9_BlockOpponent())
+            {
                 ifGoodMove = true;
-
+                return;
+            }
+            if (UC10_TakeCorners())
+            {
+                ifGoodMove = true;
+                return;
+            }
 
             if (!ifGoodMove)
             {
@@ -298,5 +307,24 @@ namespace TicTacToe
             return false;
         }
 
+        /// <summary>
+        /// Checks if Computer can place in corner.
+        /// </summary>
+        /// <returns></returns>
+        static bool UC10_TakeCorners()
+        {
+            int[] pos = new int[4] { 1, 3, 7, 9 };
+            int corner;
+            foreach (int i in pos)
+            {
+                corner = i;
+                if (board[pos[corner]] == ' ')
+                {
+                    board[corner] = compChoice;
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }
