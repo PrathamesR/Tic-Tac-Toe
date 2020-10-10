@@ -43,7 +43,7 @@ namespace TicTacToe
         /// <summary>
         /// Displays the board.
         /// </summary>
-        static void UC1_DisplayBoard()
+        static void UC1_ShowBoard()
         {
             Console.WriteLine("    "+board[1] + "|" + board[2] + "|" + board[3]);
             Console.WriteLine("   -------");
@@ -64,7 +64,7 @@ namespace TicTacToe
             Console.WriteLine("New Game Started");
             UC2SelectCharacter();
 
-            UC1_DisplayBoard();
+            UC1_ShowBoard();
         }
 
         static void Main(string[] args)
