@@ -256,14 +256,16 @@ namespace TicTacToe
                 return;
             }
 
+            if(UC11_TakeRest())
+            {
+                ifGoodMove = true;
+                return;
+            }
+
             if (!ifGoodMove)
             {
-                int randPos = new Random().Next(1, 10);
-                while (board[randPos] != ' ')
-                {
-                    randPos = new Random().Next(1, 10);
-                }
-                board[randPos] = compChoice;
+                Console.WriteLine("Error in code");
+                return;
             }
         }
 
@@ -314,17 +316,37 @@ namespace TicTacToe
         static bool UC10_TakeCorners()
         {
             int[] pos = new int[4] { 1, 3, 7, 9 };
-            int corner;
             foreach (int i in pos)
             {
-                corner = i;
-                if (board[pos[corner]] == ' ')
+                if (board[i] == ' ')
                 {
-                    board[corner] = compChoice;
+                    board[i] = compChoice;
                     return true;
                 }
             }
             return false;
+        }
+
+        static bool UC11_TakeRest()
+        {
+            if(board[5]==' ')
+            {
+                board[5] = compChoice;
+                return true;
+            }
+            else
+            {
+                int[] pos = new int[4] { 2, 6, 4, 8 };
+                foreach(int i in pos)
+                {
+                    if(board[i]==' ')
+                    {
+                        board[i] = compChoice;
+                        return true;
+                    }
+                }
+                return false;
+            }
         }
     }
 }
