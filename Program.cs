@@ -40,15 +40,14 @@ namespace TicTacToe
             UC2SelectCharacter();
 
             UC3_ShowBoard(board);
-
             Turn turn = UC6_CoinToss();
-            UC4_MakeMove(turn);
-
-            UC3_ShowBoard(board);
-            turn = UC7_GetNextTurn(turn);
-            UC4_MakeMove(turn);
-
-            UC3_ShowBoard(board);
+            while (turn != Turn.GameOver)
+            {
+                UC4_MakeMove(turn);
+                UC3_ShowBoard(board);
+                Console.WriteLine();
+                turn = UC7_GetNextTurn(turn);
+            }
         }
 
         /// <summary>
@@ -192,7 +191,7 @@ namespace TicTacToe
 
             bool movesLeft = false;
             foreach (char i in board)
-                if (i != ' ')
+                if (i == ' ')
                     movesLeft = true;
 
             if (!movesLeft)
@@ -278,12 +277,15 @@ namespace TicTacToe
             char[] tempBoard = new char[10];
             for (int i = 1; i < board.Length; i++)
             {
-                board.CopyTo(tempBoard, 0);
-                tempBoard[i] = compChoice;
-                if (UC8_CheckWinningCondition(tempBoard))
+                if (board[i] == ' ')
                 {
-                    board[i] = compChoice;
-                    return true;
+                    board.CopyTo(tempBoard, 0);
+                    tempBoard[i] = compChoice;
+                    if (UC8_CheckWinningCondition(tempBoard))
+                    {
+                        board[i] = compChoice;
+                        return true;
+                    }
                 }
             }
             return false;
@@ -298,12 +300,16 @@ namespace TicTacToe
             char[] tempBoard = new char[10];
             for (int i = 1; i < board.Length; i++)
             {
-                board.CopyTo(tempBoard, 0);
-                tempBoard[i] = playerChoice;
-                if (UC8_CheckWinningCondition(tempBoard))
+                if (board[i] == ' ')
                 {
-                    board[i] = compChoice;
-                    return true;
+                    board.CopyTo(tempBoard, 0);
+                    tempBoard[i] = playerChoice;
+                    if (UC8_CheckWinningCondition(tempBoard))
+                    {
+                        Console.WriteLine("sdf");
+                        board[i] = compChoice;
+                        return true;
+                    }
                 }
             }
             return false;
