@@ -15,10 +15,10 @@ namespace TicTacToe
 
         enum Turn
         {
-            Player=1,
-            Computer=2
+            Player = 1,
+            Computer = 2,
+            GameOver
         }
-
 
         static void Main(string[] args)
         {
@@ -41,7 +41,12 @@ namespace TicTacToe
 
             UC3_ShowBoard();
 
-            UC4_MakeMove(UC6_CoinToss());
+            Turn turn = UC6_CoinToss();
+            UC4_MakeMove(turn);
+
+            UC3_ShowBoard();
+            turn = UC7_GetNextTurn(turn);
+            UC4_MakeMove(turn);
 
             UC3_ShowBoard();
         }
@@ -77,7 +82,7 @@ namespace TicTacToe
         /// </summary>
         static void UC3_ShowBoard()
         {
-            Console.WriteLine("    "+board[1] + "|" + board[2] + "|" + board[3]);
+            Console.WriteLine("    " + board[1] + "|" + board[2] + "|" + board[3]);
             Console.WriteLine("   -------");
             Console.WriteLine("    " + board[4] + "|" + board[5] + "|" + board[6]);
             Console.WriteLine("   -------");
@@ -92,6 +97,7 @@ namespace TicTacToe
         {
             if (turn == Turn.Player)
             {
+                Console.WriteLine("Your Turn");
                 Console.Write("Enter the position you want to Mark: ");
                 bool flag = true;
                 while (flag)
@@ -122,9 +128,12 @@ namespace TicTacToe
                 }
             }
             else
+            {
+                Console.WriteLine("Computer's Turn");
                 board[new Random().Next(1, 10)] = compChoice;
+            }
         }
-        
+
         /// <summary>
         /// Toss the coin to select first Player
         /// </summary>
@@ -163,5 +172,49 @@ namespace TicTacToe
         }
 
 
+        /// <summary>
+        /// Compute the next turn or if the match has ended.
+        /// </summary>
+        /// <param name="turn">The turn.</param>
+        /// <returns></returns>
+        static Turn UC7_GetNextTurn(Turn turn)
+        {
+            if ((board[1] == board[2] && board[2] == board[3] && board[1] != ' ')
+                || (board[4] == board[5] && board[5] == board[6] && board[4] != ' ')
+                || (board[7] == board[8] && board[8] == board[9] && board[7] != ' ')
+                || (board[1] == board[4] && board[4] == board[7] && board[1] != ' ')
+                || (board[2] == board[5] && board[5] == board[8] && board[2] != ' ')
+                || (board[3] == board[6] && board[6] == board[9] && board[3] != ' ')
+                || (board[1] == board[5] && board[5] == board[9] && board[1] != ' ')
+                || (board[3] == board[5] && board[5] == board[7] && board[3] != ' '))
+            {
+                if (turn == Turn.Computer)
+                    Console.WriteLine("Computer Wins");
+                else if (turn == Turn.Player)
+                    Console.WriteLine("You win!!");
+
+                return Turn.GameOver;
+            }
+
+            bool movesLeft = false;
+            foreach (char i in board)
+                if (i != ' ')
+                    movesLeft = true;
+
+            if (!movesLeft)
+            {
+                Console.WriteLine("Its a Tie!!");
+                return Turn.GameOver;
+            }
+
+            if (turn == Turn.Computer)
+                return Turn.Player;
+
+            if (turn == Turn.Player)
+                return Turn.Computer;
+
+            //Code Never reaches here
+            return Turn.GameOver;
+        }
     }
 }
