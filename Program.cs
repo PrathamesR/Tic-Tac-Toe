@@ -130,7 +130,7 @@ namespace TicTacToe
             else
             {
                 Console.WriteLine("Computer's Turn");
-                UC8_ComputersMove();
+                UC9_ComputersMove();
             }
         }
 
@@ -180,7 +180,7 @@ namespace TicTacToe
         static Turn UC7_GetNextTurn(Turn turn)
         {
 
-            if (UC8_CheckWinningCondition(board,turn))
+            if (UC8_CheckWinningCondition(board))
             {
                 if (turn == Turn.Computer)
                     Console.WriteLine("Computer Wins");
@@ -218,7 +218,7 @@ namespace TicTacToe
         /// <param name="boardName">Name of the board.</param>
         /// <param name="turn">The turn.</param>
         /// <returns></returns>
-        static bool UC8_CheckWinningCondition(char []boardName, Turn turn)
+        static bool UC8_CheckWinningCondition(char []boardName)
         {
             if ((boardName[1] == boardName[2] && boardName[2] == boardName[3] && boardName[1] != ' ')
                    || (boardName[4] == boardName[5] && boardName[5] == boardName[6] && boardName[4] != ' ')
@@ -236,7 +236,7 @@ namespace TicTacToe
         /// <summary>
         /// Computers Turn.
         /// </summary>
-        static void UC8_ComputersMove()
+        static void UC9_ComputersMove()
         {
             bool ifGoodMove = false;
             char[] tempBoard=new char[10];
@@ -244,14 +244,27 @@ namespace TicTacToe
             {
                 board.CopyTo(tempBoard,0);
                 tempBoard[i] = compChoice;
-                if (UC8_CheckWinningCondition(tempBoard, Turn.Computer))
+                if (UC8_CheckWinningCondition(tempBoard))
                 {
-                    Console.WriteLine("isWInning");
                     board[i] = compChoice;
                     ifGoodMove= true;
                     return;
                 }
             }
+
+            for (int i = 1; i < board.Length; i++)
+            {
+                board.CopyTo(tempBoard, 0);
+                tempBoard[i] = playerChoice;
+                if (UC8_CheckWinningCondition(tempBoard))
+                {
+                    board[i] = compChoice;
+                    ifGoodMove = true;
+                    return;
+                }
+            }
+
+
             if (!ifGoodMove)
             {
                 int randPos = new Random().Next(1, 10);
