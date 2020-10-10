@@ -43,7 +43,7 @@ namespace TicTacToe
         /// <summary>
         /// Displays the board.
         /// </summary>
-        static void UC1_ShowBoard()
+        static void UC3_ShowBoard()
         {
             Console.WriteLine("    "+board[1] + "|" + board[2] + "|" + board[3]);
             Console.WriteLine("   -------");
@@ -51,6 +51,28 @@ namespace TicTacToe
             Console.WriteLine("   -------");
             Console.WriteLine("    " + board[7] + "|" + board[8] + "|" + board[9]);
         }
+
+        static void UC4_MakeMove()
+        {
+            Console.Write("Enter the position you want to Mark: ");
+            bool flag = true;
+            while (flag)
+            {
+                int pos = int.Parse(Console.ReadLine());
+                if (pos > 0 && pos < 10)
+                {
+                    if (board[pos] != ' ')
+                        Console.WriteLine("Position is not free");
+                    else
+                    {
+                        board[pos] = playerChoice;
+                        flag = false;
+                    }
+                }
+                else
+                    Console.WriteLine("Invalid Input");
+            }
+}
 
 
         /// <summary>
@@ -64,7 +86,11 @@ namespace TicTacToe
             Console.WriteLine("New Game Started");
             UC2SelectCharacter();
 
-            UC1_ShowBoard();
+            UC3_ShowBoard();
+
+            UC4_MakeMove();
+
+            UC3_ShowBoard();
         }
 
         static void Main(string[] args)
