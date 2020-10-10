@@ -17,29 +17,33 @@ namespace TicTacToe
         /// <summary>
         /// Player chooses a character.
         /// </summary>
-        static void SelectCharacter()
+        static void UC2SelectCharacter()
         {
             Console.Write("Enter your Character: ");
             string selection = Console.ReadLine();
 
-            if (selection == "X" || selection == "x" )
+            if (selection == "X" || selection == "x")
             {
                 playerChoice = char.Parse(selection.ToUpper());
                 compChoice = 'O';
             }
-            else if(selection == "O" || selection == "o")
+            else if (selection == "O" || selection == "o")
             {
                 playerChoice = char.Parse(selection.ToUpper());
                 compChoice = 'X';
             }
             else
+            {
                 Console.WriteLine("Invalid Input");
+                Console.Read();         //To read the output in console
+                System.Environment.Exit(-1);
+            }
         }
 
         /// <summary>
         /// Displays the board.
         /// </summary>
-        static void DisplayBoard()
+        static void UC1_DisplayBoard()
         {
             Console.WriteLine("    "+board[1] + "|" + board[2] + "|" + board[3]);
             Console.WriteLine("   -------");
@@ -52,20 +56,20 @@ namespace TicTacToe
         /// <summary>
         /// Starts the game.
         /// </summary>
-        static void StartGame()
+        static void UC1_StartGame()
         {
             for (int i = 1; i < 10; i++)
                 board[i] = ' ';
 
             Console.WriteLine("New Game Started");
-            SelectCharacter();
+            UC2SelectCharacter();
 
-            DisplayBoard();
+            UC1_DisplayBoard();
         }
 
         static void Main(string[] args)
         {
-            StartGame();
+            UC1_StartGame();
 
             //Temp ReadLine to view Console
             Console.ReadLine();
